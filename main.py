@@ -1,0 +1,15 @@
+import requests
+from bs4 import BeautifulSoup
+
+date = input("Which year do you want to travel to? Type the date in this format YYYY-MM-DD: ")
+
+
+response = requests.get(url=f"https://www.billboard.com/charts/hot-100/{date}")
+chart = response.text
+soup = BeautifulSoup(chart, "html.parser")
+data_song = soup.find_all(name="li", class_="lrv-u-width-100p")
+
+list_song = [data.find("h3").getText().strip("\n""\t") for data in data_song[::2]]
+list_singer = [data.find("span").getText().strip("\n""\t") for data in data_song[::2]]
+print(list_song)
+print(list_singer)
